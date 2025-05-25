@@ -16,13 +16,13 @@ public class StringSchema {
         return this;
     }
 
-    public StringSchema minLength(int minLength) {
-        this.minLength = minLength;
+    public StringSchema minLength(int min) {
+        this.minLength = min;
         return this;
     }
 
-    public StringSchema contains(String substring) {
-        this.substring = substring;
+    public StringSchema contains(String str) {
+        this.substring = str;
         return this;
     }
 
