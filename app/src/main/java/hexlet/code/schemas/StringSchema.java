@@ -30,10 +30,10 @@ public class StringSchema {
         if (this.required && (value == null || value.isEmpty())) {
             return false;
         }
-        if (value.length() < this.minLength) {
+        if (value != null && value.length() < this.minLength) {
             return false;
         }
-        if (!substring.isEmpty() && !value.contains(this.substring)) {
+        if (value != null && !substring.isEmpty() && !value.contains(this.substring)) {
             return false;
         }
         return true;
