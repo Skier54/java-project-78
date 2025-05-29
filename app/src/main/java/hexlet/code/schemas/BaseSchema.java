@@ -3,7 +3,7 @@ package hexlet.code.schemas;
 public abstract class BaseSchema<T> {
     protected boolean required;
 
-    public BaseSchema() {
+    protected BaseSchema() {
         this.required = false;
     }
 

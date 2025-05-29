@@ -1,10 +1,13 @@
 package hexlet.code;
 
+import hexlet.code.schemas.MapSchema;
 import hexlet.code.schemas.NumberSchema;
 import hexlet.code.schemas.StringSchema;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,12 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ValidatorTest {
     private StringSchema stringSchema;
     private NumberSchema numberSchema;
+    private MapSchema mapSchema;
     private final Validator valid = new Validator();
 
     @BeforeEach
     public void beforeEach() {
         stringSchema = valid.string();
         numberSchema = valid.number();
+        mapSchema = valid.map();
     }
 
     @Test
@@ -29,6 +34,8 @@ public class ValidatorTest {
         assertTrue(numberSchema.isValid(5));
         assertTrue(numberSchema.isValid(null));
         assertTrue(numberSchema.positive().isValid(null));
+
+        assertTrue(mapSchema.isValid(null));
     }
 
     @Test
@@ -40,6 +47,9 @@ public class ValidatorTest {
 
         assertFalse(numberSchema.required().isValid(null));
         assertTrue(numberSchema.isValid(5));
+
+        assertFalse(mapSchema.required().isValid(null));
+        assertTrue(mapSchema.isValid(new HashMap<>()));
     }
 
     @Test
@@ -67,5 +77,25 @@ public class ValidatorTest {
         assertTrue(numberSchema.range(5, 10).isValid(10));
         assertFalse(numberSchema.range(5, 10).isValid(3));
         assertFalse(numberSchema.range(5, 10).isValid(12));
+    }
+
+    @Test
+    public void testIsValidSizeof() {
+        var data = new HashMap<String, String>();
+        data.put("key1", "value1");
+        data.put("key2", "value2");
+
+        assertTrue(mapSchema.sizeof(2).isValid(data));
+        assertFalse(mapSchema.sizeof(3).isValid(data));
+    }
+
+    @Test
+    public void testIsValidSizeofIntStr() {
+        var dataIntStr = new HashMap<Integer, String>();
+        dataIntStr.put(1, "value1");
+        dataIntStr.put(2, "value2");
+
+        assertTrue(mapSchema.sizeof(2).isValid(dataIntStr));
+        assertFalse(mapSchema.sizeof(3).isValid(dataIntStr));
     }
 }
