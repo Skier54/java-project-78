@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -81,7 +82,7 @@ public class ValidatorTest {
 
     @Test
     public void testIsValidSizeof() {
-        var data = new HashMap<String, String>();
+        Map<Object, Object> data = new HashMap<>();
         data.put("key1", "value1");
         data.put("key2", "value2");
 
@@ -91,7 +92,7 @@ public class ValidatorTest {
 
     @Test
     public void testIsValidSizeofIntStr() {
-        var dataIntStr = new HashMap<Integer, String>();
+        Map<Object, Object> dataIntStr = new HashMap<>();
         dataIntStr.put(1, "value1");
         dataIntStr.put(2, "value2");
 
