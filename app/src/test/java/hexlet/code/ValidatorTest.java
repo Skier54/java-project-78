@@ -82,7 +82,7 @@ public class ValidatorTest {
 
     @Test
     public void testIsValidSizeof() {
-        Map<Object, Object> data = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
         data.put("key1", "value1");
         data.put("key2", "value2");
 
@@ -92,7 +92,7 @@ public class ValidatorTest {
 
     @Test
     public void testIsValidSizeofIntStr() {
-        Map<Object, Object> dataIntStr = new HashMap<>();
+        Map<Integer, String> dataIntStr = new HashMap<>();
         dataIntStr.put(1, "value1");
         dataIntStr.put(2, "value2");
 
