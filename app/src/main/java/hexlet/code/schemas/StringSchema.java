@@ -31,7 +31,7 @@ public class StringSchema extends BaseSchema<String> {
     }
     @Override
     public boolean isValid(String value) {
-        if (isValidCommon(value) || value.isEmpty()) {
+        if (this.required && (isValidCommon(value) || value.isEmpty())) {
             return false;
         }
         if (this.minLengthBoolean && value != null && value.length() < minLength) {

@@ -3,6 +3,7 @@ package hexlet.code.schemas;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
     private boolean sizeof;
     private int mapSize;
@@ -29,7 +30,7 @@ public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
 
     public MapSchema shape(Map<K, BaseSchema<V>> providedSchemas) {
         this.shape = true;
-        this.schemas = providedSchemas;
+        this.schemas = new HashMap<>(providedSchemas);
         return this;
     }
 
@@ -41,8 +42,8 @@ public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
         if (this.sizeof && value != null && value.size() != this.mapSize) {
             return false;
         }
-        if (this.shape && value != null && schemas != null) {
-            for (var entry : schemas.entrySet()) {
+        if (this.shape && value != null) {
+            for (Map.Entry<K, BaseSchema<V>> entry: schemas.entrySet()) {
                 K key = entry.getKey();
                 BaseSchema<V> schema = entry.getValue();
                 V valueForKey = value.get(key);
