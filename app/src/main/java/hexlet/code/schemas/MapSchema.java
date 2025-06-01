@@ -3,11 +3,11 @@ package hexlet.code.schemas;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapSchema extends BaseSchema<Map<Object, Object>> {
+public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
     private boolean sizeof;
     private int mapSize;
     private boolean shape;
-    private Map<Object, BaseSchema<Object>> schemas;
+    private Map<K, BaseSchema<V>> schemas;
 
     public MapSchema() {
         this.sizeof = false;
@@ -16,20 +16,25 @@ public class MapSchema extends BaseSchema<Map<Object, Object>> {
         this.schemas = new HashMap<>();
     }
 
+    public MapSchema required() {
+        super.required = true;
+        return this;
+    }
+
     public MapSchema sizeof(int size) {
         this.sizeof = true;
         this.mapSize = size;
         return this;
     }
 
-    public MapSchema shape(Map<Object, BaseSchema<Object>> providedSchemas) {
+    public MapSchema shape(Map<K, BaseSchema<V>> providedSchemas) {
         this.shape = true;
         this.schemas = providedSchemas;
         return this;
     }
 
     @Override
-    public boolean isValid(Map<Object, Object> value) {
+    public boolean isValid(Map<K, V> value) {
         if (isValidCommon(value)) {
             return false;
         }
@@ -38,9 +43,9 @@ public class MapSchema extends BaseSchema<Map<Object, Object>> {
         }
         if (this.shape && value != null && schemas != null) {
             for (var entry : schemas.entrySet()) {
-                Object key = entry.getKey();
-                BaseSchema<Object> schema = entry.getValue();
-                Object valueForKey = value.get(key);
+                K key = entry.getKey();
+                BaseSchema<V> schema = entry.getValue();
+                V valueForKey = value.get(key);
                 if (!schema.isValid(valueForKey)) {
                     return false;
                 }

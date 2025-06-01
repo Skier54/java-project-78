@@ -13,6 +13,11 @@ public class NumberSchema extends BaseSchema<Integer> {
         this.maxNumber = 0;
     }
 
+    public NumberSchema required() {
+        super.required = true;
+        return this;
+    }
+
     public NumberSchema positive() {
         this.positive = true;
         return this;

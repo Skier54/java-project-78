@@ -15,6 +15,6 @@ public abstract class BaseSchema<T> {
     }
 
     public boolean isValidCommon(T value) {
-        return this.required && value == null;
+        return required && value == null;
     }
 }

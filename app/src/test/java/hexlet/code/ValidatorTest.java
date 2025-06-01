@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.schemas.BaseSchema;
 import hexlet.code.schemas.MapSchema;
 import hexlet.code.schemas.NumberSchema;
 import hexlet.code.schemas.StringSchema;
@@ -25,6 +26,7 @@ public class ValidatorTest {
         stringSchema = valid.string();
         numberSchema = valid.number();
         mapSchema = valid.map();
+
     }
 
     @Test
@@ -56,7 +58,7 @@ public class ValidatorTest {
     @Test
     public void testIsValidMinLength() {
         assertTrue(stringSchema.minLength(10).minLength(4).isValid("Hexlet"));
-        assertFalse(stringSchema.minLength(10).isValid("Hexlet"));
+        assertFalse(stringSchema.required().minLength(10).isValid("Hexlet"));
     }
 
     @Test
@@ -98,5 +100,56 @@ public class ValidatorTest {
 
         assertTrue(mapSchema.sizeof(2).isValid(dataIntStr));
         assertFalse(mapSchema.sizeof(3).isValid(dataIntStr));
+    }
+
+    @Test
+    public void testMapShapeValidationStr() {
+        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+        schemas.put("firstName", stringSchema.required());
+        schemas.put("lastName", stringSchema.required().minLength(2));
+        mapSchema.shape(schemas);
+
+        Map<String, String> human1 = new HashMap<>();
+        human1.put("firstName", "John");
+        human1.put("lastName", "Smith");
+        assertTrue(mapSchema.isValid(human1));
+
+        Map<String, String> human2 = new HashMap<>();
+        human2.put("firstName", "John");
+        human2.put("lastName", null);
+        assertFalse(mapSchema.isValid(human2));
+
+        Map<String, String> human3 = new HashMap<>();
+        human3.put("firstName", "Anna");
+        human3.put("lastName", "B");
+        assertFalse(mapSchema.isValid(human3));
+
+        Map<String, String> human4 = new HashMap<>();
+        human3.put("firstName", "Anna");
+        human3.put("lastName", "");
+        assertFalse(mapSchema.isValid(human4));
+    }
+
+    @Test
+    public void testMapShapeValidationInt() {
+        Map<String, BaseSchema<Integer>> schemas = new HashMap<>();
+        schemas.put("height", numberSchema.required().positive());
+        schemas.put("Age", numberSchema.required().positive().range(18, 100));
+        mapSchema.shape(schemas);
+
+        Map<String, Integer> human1 = new HashMap<>();
+        human1.put("height", 70);
+        human1.put("Age", 35);
+        assertTrue(mapSchema.isValid(human1));
+
+        Map<String, Integer> human2 = new HashMap<>();
+        human2.put("height", -10);
+        human2.put("Age", 35);
+        assertFalse(mapSchema.isValid(human2));
+
+        Map<String, Integer> human3 = new HashMap<>();
+        human3.put("height", 10);
+        human3.put("Age", -35);
+        assertFalse(mapSchema.isValid(human3));
     }
 }
