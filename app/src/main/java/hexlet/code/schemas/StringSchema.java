@@ -21,6 +21,9 @@ public class StringSchema extends BaseSchema<String> {
 
     public StringSchema minLength(int min) {
         this.minLengthBoolean = true;
+        if (min < 0) {
+            throw new IllegalArgumentException("min должен быть больше нуля");
+        }
         this.minLength = min;
         return this;
     }

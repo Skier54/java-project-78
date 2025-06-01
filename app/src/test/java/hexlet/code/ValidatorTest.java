@@ -13,6 +13,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 public class ValidatorTest {
@@ -26,6 +27,10 @@ public class ValidatorTest {
         stringSchema = valid.string();
         numberSchema = valid.number();
         mapSchema = valid.map();
+
+        assertNotNull(stringSchema);
+        assertNotNull(numberSchema);
+        assertNotNull(mapSchema);
 
     }
 
@@ -65,6 +70,13 @@ public class ValidatorTest {
     public void testIsValidContains() {
         assertTrue(stringSchema.contains("wh").isValid("what does the fox say"));
         assertFalse(stringSchema.contains("whatthe").isValid("what does the fox say"));
+    }
+
+    @Test
+    public void testStringSchemaComplexConditions() {
+        assertTrue(stringSchema.required().minLength(5).contains("hello").isValid("hello world"));
+        assertFalse(stringSchema.required().minLength(15).contains("hello").isValid("hello world"));
+        assertFalse(stringSchema.required().minLength(5).contains("world").isValid("hello"));
     }
 
     @Test
@@ -125,8 +137,8 @@ public class ValidatorTest {
         assertFalse(mapSchema.isValid(human3));
 
         Map<String, String> human4 = new HashMap<>();
-        human3.put("firstName", "Anna");
-        human3.put("lastName", "");
+        human4.put("firstName", "Anna");
+        human4.put("lastName", "");
         assertFalse(mapSchema.isValid(human4));
     }
 

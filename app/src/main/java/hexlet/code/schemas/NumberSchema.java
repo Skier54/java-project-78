@@ -26,6 +26,9 @@ public class NumberSchema extends BaseSchema<Integer> {
 
     public NumberSchema range(int min, int max) {
         this.range = true;
+        if (min > max) {
+            throw new IllegalArgumentException("Min должен быть меньше или равен max");
+        }
         this.minNumber = min;
         this.maxNumber = max;
         return this;
