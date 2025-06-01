@@ -55,6 +55,7 @@ public class ValidatorTest {
 
         assertFalse(numberSchema.required().isValid(null));
         assertTrue(numberSchema.isValid(5));
+        assertTrue(numberSchema.isValid(-5));
 
         assertFalse(mapSchema.required().isValid(null));
         assertTrue(mapSchema.isValid(new HashMap<>()));
