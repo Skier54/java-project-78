@@ -17,6 +17,7 @@ public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
         this.schemas = new HashMap<>();
     }
 
+    @Override
     public MapSchema required() {
         super.required = true;
         return this;

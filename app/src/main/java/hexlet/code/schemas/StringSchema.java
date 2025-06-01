@@ -13,6 +13,7 @@ public class StringSchema extends BaseSchema<String> {
         this.substring = "";
     }
 
+    @Override
     public StringSchema required() {
         super.required = true;
         return this;

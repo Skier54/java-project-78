@@ -13,6 +13,7 @@ public class NumberSchema extends BaseSchema<Integer> {
         this.maxNumber = 0;
     }
 
+    @Override
     public NumberSchema required() {
         super.required = true;
         return this;
