@@ -25,7 +25,7 @@ public class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
 
     public MapSchema sizeof(int size) {
         this.sizeof = true;
-        if(size < 0) {
+        if (size < 0) {
             throw new IllegalArgumentException("Длина должна быть больше нуля");
         }
         this.mapSize = size;
