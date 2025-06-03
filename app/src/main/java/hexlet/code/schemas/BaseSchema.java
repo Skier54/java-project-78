@@ -14,15 +14,29 @@ public abstract class BaseSchema<T> {
     protected Map<String, Predicate<T>> checks = new LinkedHashMap<>();
     protected boolean required = false;
 
+    /**
+     * Добавляет новую проверку в схему валидации.
+     *
+     * @param name имя проверки
+     * @param validate предикат для проверки
+     */
     protected final void addChecks(String name, Predicate<T> validate) {
         checks.put(name, validate);
     }
 
-    public BaseSchema<T> required() {
-        this.required = true;
-        return this;
-    }
+    /**
+     * Проверяет значение на соответствие всем добавленным проверкам.
+     *
+     * @return true если значение валидно, иначе false
+     */
+    public abstract BaseSchema<T> required();
 
+    /**
+     * Проверяет значение на соответствие всем добавленным проверкам.
+     *
+     * @param value значение для валидации
+     * @return true если значение валидно, иначе false
+     */
     public final boolean isValid(T value) {
         if (!required && value == null) {
             return true;
