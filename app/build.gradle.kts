@@ -1,7 +1,8 @@
 plugins {
-    application
+    //application
     id("com.github.ben-manes.versions") version "0.52.0"
     id("org.sonarqube") version "6.2.0.5505"
+    java
     checkstyle
     jacoco
     id("io.freefair.lombok") version "8.6"
@@ -15,34 +16,32 @@ repositories {
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-lang3:3.17.0")
-    implementation("org.apache.commons:commons-collections4:4.4")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
-    implementation("com.fasterxml.jackson.core:jackson-core:2.15.2")
-    implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.2")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2")
-    implementation("info.picocli:picocli:4.7.6")
+    //implementation("org.apache.commons:commons-lang3:3.17.0")
+    //implementation("org.apache.commons:commons-collections4:4.4")
+    //implementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
+    //implementation("com.fasterxml.jackson.core:jackson-core:2.17.2")
+    //implementation("com.fasterxml.jackson.core:jackson-annotations:2.17.2")
+    //implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.2")
     testImplementation(platform("org.junit:junit-bom:5.12.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.assertj:assertj-core:3.24.2")
-    annotationProcessor ("info.picocli:picocli-codegen:4.7.6")
-    annotationProcessor("org.projectlombok:lombok:1.18.24")
+    //testImplementation("org.assertj:assertj-core:3.26.0")
+    annotationProcessor("org.projectlombok:lombok:1.18.32")
 }
 
-application {
-    mainClass.set("hexlet.code.App")
+//application {
+//    mainClass.set("hexlet.code.App")
 
-}
+//}
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport)
 
 }
 
-tasks.getByName("run", JavaExec::class) {
-    standardInput = System.`in`
-}
+//tasks.getByName("run", JavaExec::class) {
+//    standardInput = System.`in`
+//}
 
 tasks.jacocoTestReport { reports { xml.required.set(true) } }
 
