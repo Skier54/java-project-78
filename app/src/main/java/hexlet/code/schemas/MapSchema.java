@@ -1,50 +1,28 @@
 package hexlet.code.schemas;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-@SuppressWarnings("unchecked")
 public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
-    private boolean sizeof;
-    private int mapSize;
-    private boolean shape;
-    private Map<K, BaseSchema<V>> schemas;
-
-    public MapSchema() {
-        this.sizeof = false;
-        this.mapSize = 0;
-        this.shape = false;
-        this.schemas = new HashMap<>();
-    }
 
     @Override
-    public MapSchema required() {
+    public MapSchema<K, V> required() {
         super.required = true;
+        addChecks("required", Objects::nonNull);
         return this;
     }
 
-    public MapSchema sizeof(int size) {
-        this.sizeof = true;
-        this.mapSize = size;
+    public MapSchema<K, V> sizeof(int mapSize) {
+        addChecks("sizeof", value -> value != null && value.size() == mapSize);
         return this;
     }
 
-    public MapSchema shape(Map<K, BaseSchema<V>> providedSchemas) {
-        this.shape = true;
-        this.schemas = new HashMap<>(providedSchemas);
-        return this;
-    }
-
-    @Override
-    public boolean isValid(Map<K, V> value) {
-        if (isValidCommon(value) && (value == null || value.isEmpty())) {
-            return false;
-        }
-        if (this.sizeof && value != null && value.size() != this.mapSize) {
-            return false;
-        }
-        if (this.shape && value != null) {
-            for (Map.Entry<K, BaseSchema<V>> entry: schemas.entrySet()) {
+    public MapSchema<K, V> shape(Map<K, BaseSchema<V>> schemas) {
+        addChecks("shape", value -> {
+            if (value == null) {
+                return false;
+            }
+            for (Map.Entry<K, BaseSchema<V>> entry : schemas.entrySet()) {
                 K key = entry.getKey();
                 BaseSchema<V> schema = entry.getValue();
                 V valueForKey = value.get(key);
@@ -52,7 +30,8 @@ public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
                     return false;
                 }
             }
-        }
-        return true;
+            return true;
+        });
+        return this;
     }
 }

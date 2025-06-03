@@ -1,5 +1,9 @@
 package hexlet.code.schemas;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Predicate;
+
 /**
  * Базовый класс для схем валидации.
  * Представляет собой основу для создания различных схем валидации данных.
@@ -7,35 +11,27 @@ package hexlet.code.schemas;
  * @param <T> тип данных, которые будут валидироваться
  */
 public abstract class BaseSchema<T> {
-    protected boolean required;
+    protected Map<String, Predicate<T>> checks = new LinkedHashMap<>();
+    protected boolean required = false;
 
-    protected BaseSchema() {
-        this.required = false;
+    protected final void addChecks(String name, Predicate<T> validate) {
+        checks.put(name, validate);
     }
 
-    public abstract boolean isValid(T value);
-
-    /**
-     * Устанавливает требование обязательности поля.
-     * При переопределении метода необходимо учитывать,
-     * что поле required должно быть корректно инициализировано.
-     *
-     * @return текущий экземпляр схемы
-     */
     public BaseSchema<T> required() {
         this.required = true;
         return this;
     }
 
-    /**
-     * Выполняет базовую проверку значения на обязательность.
-     * При переопределении метода необходимо учитывать,
-     * что проверка required должна быть выполнена.
-     *
-     * @param value проверяемое значение
-     * @return true если значение проходит базовую проверку
-     */
-    public boolean isValidCommon(T value) {
-        return required && value == null;
+    public final boolean isValid(T value) {
+        if (!required && value == null) {
+            return true;
+        }
+        for (Predicate<T> check : checks.values()) {
+            if (!check.test(value)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
