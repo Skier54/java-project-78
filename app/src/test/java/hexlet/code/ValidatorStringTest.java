@@ -51,5 +51,6 @@ class ValidatorStringTest {
         assertTrue(stringSchema.required().minLength(5).contains("hello").isValid("hello world"));
         assertFalse(stringSchema.required().minLength(15).contains("hello").isValid("hello world"));
         assertFalse(stringSchema.required().minLength(5).contains("world").isValid("hello"));
+        assertFalse(stringSchema.required().minLength(5).contains("world").isValid(null));
     }
 }
