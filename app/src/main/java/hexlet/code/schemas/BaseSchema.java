@@ -41,8 +41,9 @@ public abstract class BaseSchema<T> {
         if (!required && value == null) {
             return true;
         }
+
         for (Predicate<T> check : checks.values()) {
-            if (!check.test(value)) {
+            if (value == null || !check.test(value)) {
                 return false;
             }
         }

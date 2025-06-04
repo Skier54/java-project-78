@@ -13,15 +13,15 @@ public final class MapSchema<K, V> extends BaseSchema<Map<K, V>> {
     }
 
     public MapSchema<K, V> sizeof(int mapSize) {
-        addChecks("sizeof", value -> value != null && value.size() == mapSize);
+        addChecks("sizeof", value -> value.size() == mapSize);
         return this;
     }
 
     public MapSchema<K, V> shape(Map<K, BaseSchema<V>> schemas) {
         addChecks("shape", value -> {
-            if (value == null) {
-                return false;
-            }
+            //if (value == null) {
+            //    return false;
+            //}
             for (Map.Entry<K, BaseSchema<V>> entry : schemas.entrySet()) {
                 K key = entry.getKey();
                 BaseSchema<V> schema = entry.getValue();
