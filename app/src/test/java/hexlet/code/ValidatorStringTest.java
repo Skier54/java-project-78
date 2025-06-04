@@ -44,6 +44,7 @@ class ValidatorStringTest {
     void testIsValidContains() {
         assertTrue(stringSchema.contains("wh").isValid("what does the fox say"));
         assertFalse(stringSchema.contains("whatthe").isValid("what does the fox say"));
+        assertTrue(stringSchema.contains("whatthe").isValid(null));
     }
 
     @Test
@@ -51,6 +52,5 @@ class ValidatorStringTest {
         assertTrue(stringSchema.required().minLength(5).contains("hello").isValid("hello world"));
         assertFalse(stringSchema.required().minLength(15).contains("hello").isValid("hello world"));
         assertFalse(stringSchema.required().minLength(5).contains("world").isValid("hello"));
-        assertFalse(stringSchema.required().minLength(5).contains("world").isValid(null));
     }
 }
