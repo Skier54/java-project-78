@@ -18,7 +18,6 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.12.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.junit.platform:junit-platform-launcher")
-    annotationProcessor("org.projectlombok:lombok:1.18.32")
 }
 
 tasks.test {
